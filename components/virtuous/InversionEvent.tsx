@@ -4,8 +4,8 @@ export default function InversionEvent({
   viciousCycleData,
   onCreateVirtuousCycle,
 }: {
-  viciousCycleData: any;
-  onCreateVirtuousCycle: (virtuousCycleData: any) => void;
+  viciousCycleData: unknown;
+  onCreateVirtuousCycle: (virtuousCycleData: unknown) => void;
 }) {
   const [transitioning, setTransitioning] = useState(false);
 

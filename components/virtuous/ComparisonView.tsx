@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import VirtuousCycleCanvas from "./VirtuousCycleCanvas";
 import CLDNode, { CLDNodeData } from "../cld/CLDNode";
 import CLDLink, { CLDLinkData } from "../cld/CLDLink";
 import CLDFeedbackLoop, { CLDFeedbackLoopData } from "../cld/CLDFeedbackLoop";

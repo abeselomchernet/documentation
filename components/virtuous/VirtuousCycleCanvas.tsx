@@ -11,9 +11,9 @@ export default function VirtuousCycleCanvas({ initialData }: { initialData: {
   const [nodes, setNodes] = useState<CLDNodeData[]>(initialData.nodes);
   const [links, setLinks] = useState<CLDLinkData[]>(initialData.links);
   const [loops, setLoops] = useState<CLDFeedbackLoopData[]>(initialData.loops);
-  const [selectedNode, setSelectedNode] = useState<string | null>(null);
-  const [selectedLink, setSelectedLink] = useState<string | null>(null);
-  const [selectedLoop, setSelectedLoop] = useState<string | null>(null);
+    // const [selectedNode, setSelectedNode] = useState<string | null>(null);
+    // const [selectedLink, setSelectedLink] = useState<string | null>(null);
+    // const [selectedLoop, setSelectedLoop] = useState<string | null>(null);
 
   // Node management
   const handleNodeChange = (id: string, data: CLDNodeData) => {
