@@ -1,22 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 
-export default function InversionEvent({
-  viciousCycleData,
-  onCreateVirtuousCycle,
-}: {
-  viciousCycleData: unknown;
-  onCreateVirtuousCycle: (virtuousCycleData: unknown) => void;
-}: {
-  viciousCycleData: unknown;
-  onCreateVirtuousCycle: (virtuousCycleData: unknown) => void;
-}) {
+export default function InversionEvent(
+  {
+    viciousCycleData,
+    onCreateVirtuousCycle,
+  }: {
+    viciousCycleData: unknown;
+    onCreateVirtuousCycle: (virtuousCycleData: unknown) => void;
+  }
+) {
+  const [transitioning, setTransitioning] = React.useState(false);
+
+  const handleInversion = () => {
     setTransitioning(true);
     setTimeout(() => {
       // Duplicate the vicious cycle data and retitle
       const virtuousCycleData = {
-        ...viciousCycleData,
+        ...(viciousCycleData as object),
         title: "Virtuous Cycle",
-        id: `virtuous-${viciousCycleData.id}`,
+        id: `virtuous-${(viciousCycleData as any).id}`,
         // Optionally, clear feedback loop labels or reset node/link states for editing
       };
       onCreateVirtuousCycle(virtuousCycleData);

@@ -13,7 +13,7 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const base = "px-4 py-2 rounded font-medium transition-colors focus:outline-none";
-    const variantClass = "";
+  let variantClass = "";
   let sizeClass = "";
 
   if (variant === "outline") variantClass = "border border-gray-700 bg-transparent text-gray-200 hover:bg-gray-800";
