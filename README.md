@@ -1,18 +1,145 @@
-# Mojaloop Overview
-[![Git Commit](https://img.shields.io/github/last-commit/mojaloop/documentation.svg?style=flat)](https://github.com/mojaloop/documentation/commits/master)
-[![Git Releases](https://img.shields.io/github/release/mojaloop/documentation.svg?style=flat)](https://github.com/mojaloop/documentation/releases)
-[![CircleCI](https://circleci.com/gh/mojaloop/documentation.svg?style=svg)](https://circleci.com/gh/mojaloop/documentation)
+# Mojaloop Documentation
 
-Mojaloop is open source software for creating digital payments platforms that connect all customers, merchants, banks, and other financial providers in a country's economy. Rather than a financial product or application in itself, Mojaloop establishes a blueprint for technology that bridges all the financial products and applications in any given market.
+> This is the official documentation for the Mojaloop project.
 
-The basic idea behind Mojaloop is that we need to connect multiple Digital Financial Services Providers \(DFSPs\) together into a competitive and interoperable network in order to maximize opportunities for poor people to get access to financial services with low or no fees. We don't want a single monopoly power in control of all payments in a country, or a system that shuts out new players. It also doesn't help if there are too many isolated subnetworks.
+__Published at: [docs.mojaloop.io](https://docs.mojaloop.io)__
 
-![Mojaloop Solution](./mojaloop-technical-overview/assets/diagrams/architecture/Arch-Mojaloop-end-to-end-simple.svg)
 
-Our model addresses these issues in several key ways:
+## Building and testing locally
 
-* A set of central services provides a hub through which money can flow from one DFSP to another. This is similar to how money moves through a central bank or clearing house in developed countries. Besides a central ledger, central services can provide identity lookup, fraud management, and enforce scheme rules.
-* A standard set of interfaces a DFSP can implement to connect to the system, and example code that shows how to use the system. A DFSP that wants to connect up can adapt our example code or implement the standard interfaces into their own software. The goal is for it to be as straightforward as possible for a DFSP to connect to the interoperable network.
-* Complete working open-source implementations of both sides of the interfaces - an example DFSP that can send and receive payments and the client that an existing DFSP could host to connect to the network.
+```bash
 
-The intention for the Mojaloop project is for financial institutions and commercial providers to use the open-source software to help build digital, interoperable payments platforms that drive financial inclusion on a national scale. Specifically, the platforms will enable seamless, low-cost transactions between individual users, merchants, banks, providers, and even government offices - helping connect poor customers with everyone else in the digital economy.
+# install npm dependencies
+npm ci 
+
+# run the local server
+npm run dev
+```
+
+## Building the project
+Run `npm run build` to build the project to render the static vuepress site for a deployment.
+
+
+## Rebuild all Puml -> svg
+
+For consistent rending of sequence diagrams, we build the .puml sources to .svgs using the following script.
+
+This script requires docker to be installed and running, since it uses a docker container to run the plantuml server.
+
+```bash
+# render all plantuml sources to svg files deterministically
+./scripts/_build_plantuml.sh
+
+# render just one file at a time, e.g. `figure1.plantuml`
+PUML_MATCH="figure1.plantuml"  
+./scripts/_build_plantuml.sh
+```
+
+This also ensures that the sequence diagrams are easily readable inline in markdown documents.
+
+This script also runs as a git commit hook, so any changes added to puml sources are automatically
+rendered to svg without you having to do anything!
+
+If you want to skip the commit hook, you can always run `git commit -n`
+## Versioning
+
+We use `vuepress-plugin-versioning` to help us keep older versions of our docs for posterity. By default, when you browse
+the docs, you see the _latest published version_. Pending changes in the main/master branch are viewable under the versioning
+tab in the top navigation bar.
+
+See [https://titanium-docs-devkit.netlify.app/guide/versioning.html](https://titanium-docs-devkit.netlify.app/guide/versioning.html) for more information on the plugin.
+
+We are working to automate this process, but for now, you can make a new version of the docs with the following:
+
+```bash
+./node_modules/.bin/vuepress version docs <version number>
+```
+
+> Known issue: sidebar not appearing in older versions
+> Go to `./website/versioned_docs/<version number>/sidebar.config.json`
+> And remove the `/next` at the start of each entry
+
+### Deploying Manually
+
+You can also deploy them manually, by running:
+```bash
+./scripts/_deploy_preview_s3.sh
+``` 
+
+Note that you need to have the `aws` cli, AWS access, and `aws-mfa` set up on your machine for this to work.
+
+## PR Preview System
+
+The documentation site includes an automated PR preview system that creates a live preview of documentation changes for each pull request. Here's how it works:
+
+### Key Components
+
+1. **CircleCI Configuration** (`.circleci/config.yml`):
+   - `deploy_pr_preview` job: Handles PR preview deployment
+   - `cleanup_pr_preview` job: Cleans up old PR previews
+   - Enforces a limit on the number of concurrent previews
+
+2. **Deployment Script** (`scripts/_deploy_preview_s3.sh`):
+   - Builds the documentation site with PR preview environment variables
+   - Uploads to S3 under the `/pr/{PR_NUMBER}/` path
+   - Sets appropriate permissions and headers
+
+3. **CloudFront Configuration** (`infra/src/cloudfront.tf`):
+   - Serves PR previews from the S3 bucket
+   - Handles directory indexes via CloudFront function
+   - Manages caching and routing
+
+4. **CloudFront Function** (`infra/src/redirect/index.js`):
+   - Handles directory index requests (e.g., `/pr/123/` → `/pr/123/index.html`)
+   - Manages legacy URL redirects
+
+5. **Preview Banner** (`docs/.vuepress/theme/components/PreviewBanner.vue`):
+   - Displays a prominent banner at the top of PR preview pages
+   - Shows PR number and links to the GitHub PR
+   - Automatically adjusts navbar height to accommodate the banner
+
+### How to Use
+
+1. Create a pull request against the main branch
+2. CircleCI will automatically:
+   - Build the documentation with PR preview mode enabled
+   - Deploy to a preview URL: `https://docs.mojaloop.io/pr/{PR_NUMBER}`
+   - Comment on the PR with the preview URL
+3. Preview will be automatically cleaned up when the PR is closed
+
+### Preview Limits
+
+- Maximum of 10 concurrent previews
+- Previews are automatically cleaned up after PR closure
+- Existing previews are updated when new commits are pushed
+
+### Testing Locally
+
+To test the PR preview system locally:
+
+```bash
+# Run with PR preview mode enabled
+VUEPRESS_IS_PR=true VUEPRESS_PR_NUMBER=123 npm run dev
+```
+
+This will:
+- Show the PR preview banner
+- Adjust the navbar height automatically
+- Display the PR number and link to GitHub
+
+### Troubleshooting
+
+If a preview isn't working:
+1. Check the CircleCI build logs for deployment issues
+2. Verify the PR number is correctly extracted
+3. Ensure the CloudFront function is properly handling directory indexes
+4. Check S3 for the presence of files at `/pr/{PR_NUMBER}/`
+5. Verify environment variables are set correctly in the build process
+
+## Contributing to the project
+Please refer to the [Contributing Guide](./contributing-guide.md) for details on how to contribute to Mojaloop Docs 2.0.
+
+## License
+
+Apache License. Version 2.0
+See [`./license`](./LICENSE.md) for more information.
