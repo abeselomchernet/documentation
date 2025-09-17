@@ -20,7 +20,7 @@ export default function PFIDashboard() {
       {view === 'portfolio' && (
         <div style={{ color: '#222', fontSize: 16 }}>
           {/* Portfolio overview content goes here */}
-          <p>Display PFI's current portfolio, performance metrics, and risk analysis.</p>
+          <p>Display PFI&apos;s current portfolio, performance metrics, and risk analysis.</p>
         </div>
       )}
       {!view && (

@@ -6,10 +6,10 @@ export default function InversionEvent({
 }: {
   viciousCycleData: unknown;
   onCreateVirtuousCycle: (virtuousCycleData: unknown) => void;
+}: {
+  viciousCycleData: unknown;
+  onCreateVirtuousCycle: (virtuousCycleData: unknown) => void;
 }) {
-  const [transitioning, setTransitioning] = useState(false);
-
-  const handleInversion = () => {
     setTransitioning(true);
     setTimeout(() => {
       // Duplicate the vicious cycle data and retitle
