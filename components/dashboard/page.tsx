@@ -1,8 +1,8 @@
 "use client";
 
-import React from 'react';
-import { useParams } from 'next/navigation';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 const enawugaSummary = `This comprehensive blueprint provides a canonical model for solving the **Grassroots Failure** within the Ethiopian context. The document's detailed, persona-driven approach and its innovative service designs like the "Trust Bundle" and "SmartCycle 2.0" serve as a foundational reference for last-mile viability strategies.`;
 
@@ -223,63 +223,75 @@ const ProjectDetailPage = () => {
   const projectName = params.projectName?.toString().replace(/-/g, ' ') || "Project Details";
   const isEnawugaProject = projectName.toLowerCase().includes('enawuga');
 
+  const [copiedV1, setCopiedV1] = useState(false);
+  const [copiedV2, setCopiedV2] = useState(false);
+
+  const handleCopy = (textToCopy: string, setCopied: React.Dispatch<React.SetStateAction<boolean>>) => {
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      setCopied(true);
+      setTimeout(() => {
+        setCopied(false);
+      }, 2000); // Reset after 2 seconds
+    });
+  };
+
   return (
-    <div style={{ fontFamily: "Inter, Arial, sans-serif", padding: '2rem', color: '#333', background: '#fff', borderRadius: 12, boxShadow: "0 2px 16px rgba(0,0,0,0.07)" }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, borderBottom: '1px solid #eee', paddingBottom: 16 }}>
-        <h1 style={{ fontSize: 32, fontWeight: 700, margin: 0, textTransform: 'capitalize' }}>
+    <div className="font-sans p-8 text-gray-800 bg-white rounded-xl shadow-lg">
+      <div className="flex justify-between items-center mb-4 border-b border-gray-200 pb-4">
+        <h1 className="text-3xl font-bold m-0 capitalize">
           {projectName}
         </h1>
-        <Link href="/" style={{ textDecoration: 'none', color: '#fff', background: '#222', padding: '8px 16px', borderRadius: 6, fontWeight: 500 }}>
+        <Link href="/" className="no-underline text-white bg-gray-900 py-2 px-4 rounded-md font-medium hover:bg-gray-800 transition-colors">
           &larr; Back to Dashboard
         </Link>
       </div>
       
       {isEnawugaProject ? (
         <div>
-          <h2 style={{ fontSize: 24, fontWeight: 600, marginTop: 32, marginBottom: 12 }}>
+          <h2 className="text-2xl font-semibold mt-8 mb-3">
             Project Summary (V1.0)
           </h2>
           <p 
-            style={{ background: '#f9f9f9', padding: '1rem', borderRadius: 8, lineHeight: 1.6, border: '1px solid #eee', margin: 0, fontSize: 16 }}
-            dangerouslySetInnerHTML={{ __html: enawugaSummary.replace(/\*\*(.*?)\*\*/g, '&lt;strong&gt;$1&lt;/strong&gt;') }}
+            className="bg-gray-50 p-4 rounded-lg leading-relaxed border border-gray-200 m-0 text-base"
+            dangerouslySetInnerHTML={{ __html: enawugaSummary.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }}
           />
 
-          <h2 style={{ fontSize: 24, fontWeight: 600, marginTop: 48, marginBottom: 12 }}>
+          <h2 className="text-2xl font-semibold mt-12 mb-3">
             Gemini CLI Generation Command (V1.0)
           </h2>
-          <div style={{ position: 'relative', background: '#2d2d2d', color: '#f8f8f2', padding: '1rem', borderRadius: 8, overflowX: 'auto' }}>
+          <div className="relative bg-gray-800 text-gray-100 p-4 rounded-lg overflow-x-auto">
             <button
               onClick={() => handleCopy(enawugaCliCommand, setCopiedV1)}
-              style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', background: '#4a4a4a', color: 'white', border: '1px solid #666', borderRadius: 6, padding: '4px 10px', cursor: 'pointer', fontSize: 12, zIndex: 10 }}
+              className="absolute top-2 right-2 bg-gray-700 text-white border border-gray-500 rounded-md py-1 px-2.5 cursor-pointer text-xs z-10 hover:bg-gray-600 transition-colors"
             >
               {copiedV1 ? 'Copied!' : 'Copy'}
             </button>
-            <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word', margin: 0, fontSize: 14 }}>
+            <pre className="whitespace-pre-wrap break-words m-0 text-sm">
               <code>
                 {enawugaCliCommand}
               </code>
             </pre>
           </div>
 
-          <h2 style={{ fontSize: 24, fontWeight: 600, marginTop: 48, marginBottom: 12, borderTop: '1px solid #eee', paddingTop: 48 }}>
+          <h2 className="text-2xl font-semibold mt-12 mb-3 border-t border-gray-200 pt-12">
             V2.0 Upgraded Prototype Summary
           </h2>
           <p 
-            style={{ background: '#f9f9f9', padding: '1rem', borderRadius: 8, lineHeight: 1.6, border: '1px solid #eee', margin: 0, fontSize: 16 }}
-            dangerouslySetInnerHTML={{ __html: enawugaV2Summary.replace(/\*\*(.*?)\*\*/g, '&lt;strong&gt;$1&lt;/strong&gt;') }}
+            className="bg-gray-50 p-4 rounded-lg leading-relaxed border border-gray-200 m-0 text-base"
+            dangerouslySetInnerHTML={{ __html: enawugaV2Summary.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }}
           />
 
-          <h2 style={{ fontSize: 24, fontWeight: 600, marginTop: 48, marginBottom: 12 }}>
+          <h2 className="text-2xl font-semibold mt-12 mb-3">
             Gemini CLI Generation Command (V2.0)
           </h2>
-          <div style={{ position: 'relative', background: '#2d2d2d', color: '#f8f8f2', padding: '1rem', borderRadius: 8, overflowX: 'auto' }}>
+          <div className="relative bg-gray-800 text-gray-100 p-4 rounded-lg overflow-x-auto">
             <button
               onClick={() => handleCopy(enawugaV2CliCommand, setCopiedV2)}
-              style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', background: '#4a4a4a', color: 'white', border: '1px solid #666', borderRadius: 6, padding: '4px 10px', cursor: 'pointer', fontSize: 12, zIndex: 10 }}
+              className="absolute top-2 right-2 bg-gray-700 text-white border border-gray-500 rounded-md py-1 px-2.5 cursor-pointer text-xs z-10 hover:bg-gray-600 transition-colors"
             >
               {copiedV2 ? 'Copied!' : 'Copy'}
             </button>
-            <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word', margin: 0, fontSize: 14 }}>
+            <pre className="whitespace-pre-wrap break-words m-0 text-sm">
               <code>
                 {enawugaV2CliCommand}
               </code>
@@ -288,7 +300,7 @@ const ProjectDetailPage = () => {
 
         </div>
       ) : (
-        <p>Details for this project are not available yet.</p>
+        <p className="mt-4 text-gray-500">Details for this project are not available yet.</p>
       )}
     </div>
   );

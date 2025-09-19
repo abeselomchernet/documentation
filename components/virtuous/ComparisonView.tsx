@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import CLDNode, { CLDNodeData } from "../cld/CLDNode";
 import CLDLink, { CLDLinkData } from "../cld/CLDLink";
 import CLDFeedbackLoop, { CLDFeedbackLoopData } from "../cld/CLDFeedbackLoop";
