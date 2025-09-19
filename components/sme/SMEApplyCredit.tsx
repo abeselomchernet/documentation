@@ -2,16 +2,9 @@ import React, { useState } from "react";
 
 export default function SMEApplyCredit() {
   const [product, setProduct] = useState("");
-  const [documents, setDocuments] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<null | { score: number; risk: string; report: string }>(null);
   const [error, setError] = useState("");
-
-  const handleDocsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setDocuments(Array.from(e.target.files));
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +41,7 @@ export default function SMEApplyCredit() {
         </div>
         <div style={{ marginBottom: 24 }}>
           <label style={{ fontWeight: 500, marginBottom: 6, display: "block" }}>Attach Documents (optional)</label>
-          <input type="file" multiple onChange={handleDocsChange} />
+          <input type="file" multiple />
         </div>
         {error && <div style={{ color: "#b91c1c", marginBottom: 12 }}>{error}</div>}
         <button type="submit" disabled={loading} style={{ width: "100%", padding: "12px 0", background: "#2563eb", color: "#fff", fontWeight: 600, fontSize: 17, border: "none", borderRadius: 6, cursor: "pointer" }}>

@@ -4,7 +4,7 @@ export default function DashboardEmptyState({ onCreate }: { onCreate?: () => voi
   return (
     <div style={{ maxWidth: 480, margin: "100px auto", padding: 40, background: "#fff", borderRadius: 14, boxShadow: "0 2px 16px rgba(0,0,0,0.07)", textAlign: "center", fontFamily: "Inter, Arial, sans-serif" }}>
       <h2 style={{ fontWeight: 600, fontSize: 26, marginBottom: 18, color: "#222" }}>
-        Welcome to the Architect's Workbench
+        Welcome to the Architect&apos;s Workbench
       </h2>
       <p style={{ fontSize: 18, color: "#444", marginBottom: 36 }}>
         Begin by diagnosing your first system.

@@ -11,15 +11,16 @@ export default function VirtuousCycleCanvas({ initialData }: { initialData: {
   const [nodes, setNodes] = useState<CLDNodeData[]>(initialData.nodes);
   const [links, setLinks] = useState<CLDLinkData[]>(initialData.links);
   const [loops, setLoops] = useState<CLDFeedbackLoopData[]>(initialData.loops);
-    // const [selectedNode, setSelectedNode] = useState<string | null>(null);
-    // const [selectedLink, setSelectedLink] = useState<string | null>(null);
-    // const [selectedLoop, setSelectedLoop] = useState<string | null>(null);
+    const [selectedNode, setSelectedNode] = useState<string | null>(null);
+    const [selectedLink, setSelectedLink] = useState<string | null>(null);
+    // Loop selection is not fully implemented, so we'll remove the unused setter.
+    const [selectedLoop] = useState<string | null>(null);
 
   // Node management
   const handleNodeChange = (id: string, data: CLDNodeData) => {
     setNodes(nodes.map(n => (n.id === id ? data : n)));
   };
-  const handleAddNode = (x: number, y: number) => {
+  const handleAddNode = () => {
     const newNode: CLDNodeData = {
       id: `node-${Date.now()}`,
       text: "New Variable",
@@ -27,6 +28,8 @@ export default function VirtuousCycleCanvas({ initialData }: { initialData: {
       border: "solid",
       bold: false,
       italic: false,
+      x: 120,
+      y: 120,
     };
     setNodes([...nodes, newNode]);
   };
@@ -60,7 +63,6 @@ export default function VirtuousCycleCanvas({ initialData }: { initialData: {
           link={link}
           onChange={data => handleLinkChange(link.id, data)}
           selected={selectedLink === link.id}
-          onSelect={() => setSelectedLink(link.id)}
         />
       ))}
       {/* Render nodes */}
@@ -86,7 +88,7 @@ export default function VirtuousCycleCanvas({ initialData }: { initialData: {
       <div style={{ position: "absolute", top: 18, left: 18, display: "flex", gap: 12 }}>
         <button
           style={{ padding: "8px 18px", background: "#2563eb", color: "#fff", border: "none", borderRadius: 6, fontWeight: 600, fontSize: 16, cursor: "pointer" }}
-          onClick={() => handleAddNode(120, 120)}
+          onClick={handleAddNode}
         >
           Add Node
         </button>

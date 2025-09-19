@@ -48,7 +48,7 @@ export default function ComparisonView({
             >
               {/* Render nodes, links, loops as read-only */}
               {viciousData.links.map(link => (
-                <CLDLink key={link.id} link={link} onChange={() => {}} selected={false} onSelect={() => {}} />
+                <CLDLink key={link.id} link={link} onChange={() => {}} selected={false} />
               ))}
               {viciousData.nodes.map(node => (
                 <CLDNode key={node.id} node={node} onChange={() => {}} selected={false} onSelect={() => {}} />
@@ -83,7 +83,7 @@ export default function ComparisonView({
             >
               {/* Render nodes, links, loops as read-only */}
               {virtuousData.links.map(link => (
-                <CLDLink key={link.id} link={link} onChange={() => {}} selected={false} onSelect={() => {}} />
+                <CLDLink key={link.id} link={link} onChange={() => {}} selected={false} />
               ))}
               {virtuousData.nodes.map(node => (
                 <CLDNode key={node.id} node={node} onChange={() => {}} selected={false} onSelect={() => {}} />

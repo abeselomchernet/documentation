@@ -11,12 +11,10 @@ export default function CLDLink({
   link,
   onChange,
   selected,
-  onSelect,
 }: {
   link: CLDLinkData;
   onChange: (data: CLDLinkData) => void;
   selected: boolean;
-  onSelect: () => void;
 }) {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -29,7 +27,6 @@ export default function CLDLink({
   const dy = link.target.y - link.source.y;
   const angle = Math.atan2(dy, dx);
   const arrowLength = 18;
-  const arrowWidth = 7;
   const arrowX = link.target.x - Math.cos(angle) * 12;
   const arrowY = link.target.y - Math.sin(angle) * 12;
 

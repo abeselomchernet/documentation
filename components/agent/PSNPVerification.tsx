@@ -51,7 +51,7 @@ export default function PSNPVerification() {
         <div style={{ marginTop: 32, background: "#f3f4f6", padding: 18, borderRadius: 8, textAlign: "center" }}>
           <div style={{ fontSize: 18, fontWeight: 600, marginBottom: 8 }}>Payment Released</div>
           <div style={{ fontSize: 16, color: "#2563eb" }}>Transaction ID: {result.transactionId}</div>
-          <div style={{ fontSize: 15, color: "#444", marginTop: 10 }}>This transaction is now part of the participant's financial history.</div>
+          <div style={{ fontSize: 15, color: "#444", marginTop: 10 }}>This transaction is now part of the participant&apos;s financial history.</div>
         </div>
       )}
     </div>

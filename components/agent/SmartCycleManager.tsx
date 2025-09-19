@@ -15,7 +15,6 @@ type Group = {
 export default function SmartCycleManager() {
   const [group, setGroup] = useState<Group | null>(null);
   const [form, setForm] = useState({ name: "", members: "", contribution: "", frequency: "" });
-  const [creating, setCreating] = useState(false);
   const [error, setError] = useState("");
   const [drawLoading, setDrawLoading] = useState(false);
   const [drawResult, setDrawResult] = useState<null | { winner: string; transactionId: string }>(null);
@@ -38,7 +37,6 @@ export default function SmartCycleManager() {
       history: [],
       cycle: 1,
     });
-    setCreating(false);
   };
 
   const handleSimulateContribution = () => {

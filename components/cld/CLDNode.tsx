@@ -10,6 +10,8 @@ export type CLDNodeData = {
   border: "solid" | "dashed";
   bold: boolean;
   italic: boolean;
+  x: number;
+  y: number;
 };
 
 export default function CLDNode({
@@ -94,8 +96,9 @@ export default function CLDNode({
         borderRadius: 10,
         boxShadow: selected ? "0 2px 8px rgba(37,99,235,0.09)" : "0 1px 4px rgba(0,0,0,0.04)",
         cursor: "pointer",
-        margin: 8,
-        position: "relative",
+        position: "absolute",
+        left: node.x,
+        top: node.y,
         outline: selected ? "2px solid #2563eb" : "none",
         transition: "outline 0.2s",
         userSelect: "none",
